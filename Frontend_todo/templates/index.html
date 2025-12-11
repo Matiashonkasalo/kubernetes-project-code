@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>The Project App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+        }
+        img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        h1 {
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 22px;
+            margin-top: 20px;
+        }
+        h3 {
+            margin-top: 30px;
+            font-size: 26px;
+        }
+        li {
+            margin-bottom: 8px;
+            font-size: 20px;
+        }
+        .done {
+            color: gray;
+            text-decoration: line-through;
+        }
+        .mark-button {
+            margin-left: 20px;
+            padding: 5px 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>The Project App</h1>
+
+    <img src="/image" alt="Random Image">
+
+    <p>DevOps with Kubernetes 2025</p>
+
+    <div style="margin-top: 40px;">
+        <h2>Todo List</h2>
+
+        <!-- Create new todo form -->
+        <form action="/todos" method="post" style="margin-bottom: 20px;">
+            <input 
+                type="text" 
+                name="content"
+                placeholder="Enter your todo..."
+                maxlength="140"
+                required
+                style="width: 70%; padding: 10px; font-size: 18px;"
+            />
+
+            <button type="submit" style="padding: 10px 20px; font-size: 18px;">
+                Create todo
+            </button>
+        </form>
+
+        <!-- Todo (not done yet) -->
+        <h3>Todo</h3>
+        <ul>
+            {% for todo in todos %}
+                {% if not todo.done %}
+                    <li>
+                        {{ todo.content }}
+                        
+                        <!-- Mark as done button -->
+                        <form action="/todos/{{ todo.id }}" method="post" style="display:inline;">
+                            <input type="hidden" name="_method" value="PUT">
+                            <input type="hidden" name="done" value="true">
+                            <button class="mark-button" type="submit">Mark done</button>
+                        </form>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+
+        <!-- Done todos -->
+        <h3>Done</h3>
+        <ul>
+            {% for todo in todos %}
+                {% if todo.done %}
+                    <li class="done">{{ todo.content }}</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+
+    </div>
+
+</body>
+</html>
